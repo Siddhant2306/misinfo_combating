@@ -1,4 +1,11 @@
-/.env
-/base_promt.md
-/.vscode
-/__pycache__
+# Ignore environment files
+.env
+
+# Ignore base prompt markdown
+base_promt.md
+
+# Ignore VS Code settings
+.vscode/
+
+# Ignore Python cache
+__pycache__/
