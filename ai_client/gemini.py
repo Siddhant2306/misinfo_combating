@@ -9,7 +9,7 @@ class Gemini(AIPlatform):
         genai.configure(api_key=self.api_key)
         
     
-        self.model = genai.GenerativeModel("gemini-2.5-pro")
+        self.model = genai.GenerativeModel("gemini-1.5-flash")
 
     
     def chat(self, prompt: str) -> str:
