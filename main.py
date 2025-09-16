@@ -1,4 +1,4 @@
-# Main functions
+#Main functions
 import json
 import re
 import os
@@ -7,7 +7,8 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from dotenv import load_dotenv
 
-# Helper functions
+
+#Helper functions
 from ai_client.gemini import Gemini
 from services.fast_check import search_claims
 
@@ -24,12 +25,14 @@ def load_system_prompt():
 # Loads the API key from .env
 load_dotenv()
 system_prompt = load_system_prompt()
-gemini_api_key = os.getenv("GEMINI_API_KEY")
+gemini_api_key = os.getenv("GEMINI_API_KEY") # now i can read it in my .env file
+
 
 if not gemini_api_key:
     raise ValueError("GEMINI_API_KEY environment variable not set.")
 
 ai_platform = Gemini(api_key=gemini_api_key, system_prompt=system_prompt)
+
 
 # Pydantic models
 class ChatRequest(BaseModel):
