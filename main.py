@@ -24,6 +24,7 @@ def load_system_prompt():
 
 # Loads the API key from .env
 load_dotenv()
+
 system_prompt = load_system_prompt()
 gemini_api_key = os.getenv("GEMINI_API_KEY") # now i can read it in my .env file
 
@@ -55,7 +56,7 @@ def chat_request(request: ChatRequest):
     print(f"your type :" ,type(clean_prompt))
 
     try:
-        claims_output = search_claims(clean_prompt)
+        claims_output = search_claims(clean_prompt) #Fact check api call function
     except Exception as e:
         print(f"Error in fact checking: {e}")
         print(f"Your prompt: {clean_prompt}", "Type:", type(clean_prompt))
@@ -74,6 +75,16 @@ def chat_request(request: ChatRequest):
     response_text = ai_platform.chat(context)
     last_response = response_text
 
+    clean_text = clean_markdown(last_response)
+
+    points = re.split(r"\n|\d+\.\s*", clean_text)
+    points = [p.strip() for p in points if p.strip()]
+
+    print("\n===== Chat Response =====")
+    for p in points:
+        print(f"- {p}")
+    print("========================\n")
+
     return {
         "claims": claims_output,
         "gemini_analysis": response_text
@@ -85,20 +96,3 @@ def clean_markdown(text: str) -> str:
     text = re.sub(r"[*\-]\s*", "", text)
     return text.strip()
 
-@app.get("/chat")
-def chat_get():
-    global last_response
-
-    if not last_response:
-        return JSONResponse(content={"last_response": []})
-
-    clean_text = clean_markdown(last_response)
-    points = re.split(r"\n|\d+\.\s*", clean_text)
-    points = [p.strip() for p in points if p.strip()]
-
-    print("\n===== Chat Response =====")
-    for p in points:
-        print(f"- {p}")
-    print("========================\n")
-
-    return JSONResponse(content={"last_response": points})

@@ -9,3 +9,6 @@ base_promt.md
 
 # Ignore Python cache
 __pycache__/
+*.py[cod]
+*.pyc
+*.pyd

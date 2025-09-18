@@ -1,6 +1,8 @@
+import re
+import json
 from .base_fact import get_factcheck_service
 from googleapiclient.errors import HttpError
-import re
+
 
 # Initialize service once
 factcheck_service = get_factcheck_service()
@@ -42,5 +44,8 @@ def search_claims(prompt: str, language="en"):
                     "url": review.get("url", "")
                 })
             claims_output.append(claim_obj)
-
-    return claims_output
+            print("Web-Search:")
+            print(json.dumps(claim_obj, indent=4, ensure_ascii=False))
+            print("-" * 50) 
+            
+    return claims_output;
